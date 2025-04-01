@@ -38,17 +38,17 @@ $route['reset-password/(:any)'] = 'auth/reset_password/$1';
 // Rutas del webhook
 $route['webhook/receive'] = 'WebhookController/receive';
 
-// Rutas del dashboard (ajustadas para usar DashboardController)
-$route['dashboard'] = 'DashboardController/index';
-$route['dashboard/config'] = 'DashboardController/config';
-$route['dashboard/save_config'] = 'DashboardController/save_config';
-$route['dashboard/save_api_credentials'] = 'DashboardController/save_api_credentials';
-$route['dashboard/strategies'] = 'DashboardController/strategies';
-$route['dashboard/save_strategy'] = 'DashboardController/save_strategy';
-$route['dashboard/delete_strategy/(:num)'] = 'DashboardController/delete_strategy/$1';
-$route['dashboard/switch_environment'] = 'DashboardController/switch_environment';
-$route['dashboard/get_positions_data'] = 'DashboardController/get_positions_data';
-$route['dashboard/close_position'] = 'DashboardController/close_position';
+// Rutas del dashboard (ajustadas para usar Dashboard)
+$route['dashboard'] = 'Dashboard/index';
+$route['dashboard/config'] = 'Dashboard/config';
+$route['dashboard/save_config'] = 'Dashboard/save_config';
+$route['dashboard/save_api_credentials'] = 'Dashboard/save_api_credentials';
+$route['dashboard/strategies'] = 'Dashboard/strategies';
+$route['dashboard/save_strategy'] = 'Dashboard/save_strategy';
+$route['dashboard/delete_strategy/(:num)'] = 'Dashboard/delete_strategy/$1';
+$route['dashboard/switch_environment'] = 'Dashboard/switch_environment';
+$route['dashboard/get_positions_data'] = 'Dashboard/get_positions_data';
+$route['dashboard/close_position'] = 'Dashboard/close_position';
 
 // Rutas de posiciones
 $route['positions'] = 'Positions/index';

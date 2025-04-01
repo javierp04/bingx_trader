@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 
  * Controlador para gestionar posiciones
  */
-class Positions extends CI_Controller {
+class Positions extends Auth_Controller {
     
     public function __construct() {
         parent::__construct();

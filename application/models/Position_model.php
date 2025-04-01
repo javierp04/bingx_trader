@@ -1,43 +1,47 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Position_model
  * 
  * Modelo para gestionar las posiciones abiertas y cerradas
  */
-class Position_model extends CI_Model {
-    
-    public function __construct() {
+class Position_model extends CI_Model
+{
+
+    public function __construct()
+    {
         parent::__construct();
         $this->load->database();
     }
-    
+
     /**
      * Obtiene las posiciones abiertas en un entorno
      * 
      * @param string $environment Entorno ('sandbox' o 'production')
      * @return array
      */
-    public function get_open_positions($environment) {
+    public function get_open_positions($environment)
+    {
         $this->db->where('environment', $environment);
         $this->db->where('status', 'open');
         $this->db->order_by('created_at', 'DESC');
         $query = $this->db->get('positions');
         return $query->result_array();
     }
-    
+
     /**
      * Obtiene una posición por su ID
      * 
      * @param int $position_id ID de la posición
      * @return array
      */
-    public function get_position($position_id) {
+    public function get_position($position_id)
+    {
         $query = $this->db->get_where('positions', ['id' => $position_id]);
         return $query->row_array();
     }
-    
+
     /**
      * Obtiene las posiciones abiertas para un ticker
      * 
@@ -46,7 +50,8 @@ class Position_model extends CI_Model {
      * @param string $market_type Tipo de mercado ('spot' o 'futures')
      * @return array
      */
-    public function get_ticker_positions($ticker, $environment, $market_type) {
+    public function get_ticker_positions($ticker, $environment, $market_type)
+    {
         $this->db->where('ticker', $ticker);
         $this->db->where('environment', $environment);
         $this->db->where('market_type', $market_type);
@@ -54,7 +59,7 @@ class Position_model extends CI_Model {
         $query = $this->db->get('positions');
         return $query->result_array();
     }
-    
+
     /**
      * Actualiza el precio actual y PNL de una posición
      * 
@@ -64,18 +69,19 @@ class Position_model extends CI_Model {
      * @param float $pnl_percentage PNL en porcentaje
      * @return bool
      */
-    public function update_position_price($position_id, $current_price, $pnl, $pnl_percentage) {
+    public function update_position_price($position_id, $current_price, $pnl, $pnl_percentage)
+    {
         $data = [
             'current_price' => $current_price,
             'pnl' => $pnl,
             'pnl_percentage' => $pnl_percentage,
             'updated_at' => date('Y-m-d H:i:s')
         ];
-        
+
         $this->db->where('id', $position_id);
         return $this->db->update('positions', $data);
     }
-    
+
     /**
      * Cierra una posición
      * 
@@ -86,7 +92,8 @@ class Position_model extends CI_Model {
      * @param float $pnl_percentage PNL final en porcentaje
      * @return bool
      */
-    public function close_position($position_id, $close_reason, $close_price, $pnl, $pnl_percentage) {
+    public function close_position($position_id, $close_reason, $close_price, $pnl, $pnl_percentage)
+    {
         $data = [
             'status' => 'closed',
             'close_reason' => $close_reason,
@@ -96,23 +103,24 @@ class Position_model extends CI_Model {
             'close_time' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ];
-        
+
         $this->db->where('id', $position_id);
         return $this->db->update('positions', $data);
     }
-    
+
     /**
      * Cuenta las posiciones abiertas en un entorno
      * 
      * @param string $environment Entorno ('sandbox' o 'production')
      * @return int
      */
-    public function count_open_positions($environment) {
+    public function count_open_positions($environment)
+    {
         $this->db->where('environment', $environment);
         $this->db->where('status', 'open');
         return $this->db->count_all_results('positions');
     }
-    
+
     /**
      * Obtiene el historial de posiciones cerradas
      * 
@@ -120,7 +128,8 @@ class Position_model extends CI_Model {
      * @param int $limit Límite de resultados
      * @return array
      */
-    public function get_closed_positions($environment, $limit = 100) {
+    public function get_closed_positions($environment, $limit = 100)
+    {
         $this->db->where('environment', $environment);
         $this->db->where('status', 'closed');
         $this->db->order_by('close_time', 'DESC');
@@ -128,21 +137,22 @@ class Position_model extends CI_Model {
         $query = $this->db->get('positions');
         return $query->result_array();
     }
-    
+
     /**
      * Calcula el PNL total de todas las posiciones abiertas
      * 
      * @param string $environment Entorno ('sandbox' o 'production')
      * @return float
      */
-    public function calculate_total_open_pnl($environment) {
+    public function calculate_total_open_pnl($environment)
+    {
         $this->db->select_sum('pnl');
         $this->db->where('environment', $environment);
         $this->db->where('status', 'open');
         $query = $this->db->get('positions');
         return $query->row()->pnl ?? 0;
     }
-    
+
     /**
      * Calcula el PNL total de todas las posiciones cerradas
      * 
@@ -150,11 +160,12 @@ class Position_model extends CI_Model {
      * @param string $period Periodo ('day', 'week', 'month', 'all')
      * @return float
      */
-    public function calculate_total_closed_pnl($environment, $period = 'all') {
+    public function calculate_total_closed_pnl($environment, $period = 'all')
+    {
         $this->db->select_sum('pnl');
         $this->db->where('environment', $environment);
         $this->db->where('status', 'closed');
-        
+
         // Filtrar por periodo
         switch ($period) {
             case 'day':
@@ -168,11 +179,11 @@ class Position_model extends CI_Model {
                 $this->db->where('YEAR(close_time) = YEAR(NOW())');
                 break;
         }
-        
+
         $query = $this->db->get('positions');
         return $query->row()->pnl ?? 0;
     }
-    
+
     /**
      * Obtiene estadísticas de trading de posiciones cerradas
      * 
@@ -180,11 +191,12 @@ class Position_model extends CI_Model {
      * @param string $period Periodo ('day', 'week', 'month', 'all')
      * @return array
      */
-    public function get_trading_stats($environment, $period = 'all') {
+    public function get_trading_stats($environment, $period = 'all')
+    {
         // Preparar consulta base
         $this->db->where('environment', $environment);
         $this->db->where('status', 'closed');
-        
+
         // Filtrar por periodo
         switch ($period) {
             case 'day':
@@ -198,10 +210,10 @@ class Position_model extends CI_Model {
                 $this->db->where('YEAR(close_time) = YEAR(NOW())');
                 break;
         }
-        
+
         $query = $this->db->get('positions');
         $positions = $query->result_array();
-        
+
         // Inicializar estadísticas
         $total_positions = count($positions);
         $winning_positions = 0;
@@ -211,34 +223,34 @@ class Position_model extends CI_Model {
         $losing_pnl = 0;
         $best_trade = ['pnl' => 0];
         $worst_trade = ['pnl' => 0];
-        
+
         // Calcular estadísticas
         foreach ($positions as $position) {
             $total_pnl += $position['pnl'];
-            
+
             if ($position['pnl'] > 0) {
                 $winning_positions++;
                 $winning_pnl += $position['pnl'];
-                
+
                 if ($position['pnl'] > $best_trade['pnl']) {
                     $best_trade = $position;
                 }
             } else {
                 $losing_positions++;
                 $losing_pnl += $position['pnl'];
-                
+
                 if ($position['pnl'] < $worst_trade['pnl']) {
                     $worst_trade = $position;
                 }
             }
         }
-        
+
         // Calcular porcentajes y promedios
         $win_rate = $total_positions > 0 ? ($winning_positions / $total_positions) * 100 : 0;
         $avg_winning_trade = $winning_positions > 0 ? $winning_pnl / $winning_positions : 0;
         $avg_losing_trade = $losing_positions > 0 ? $losing_pnl / $losing_positions : 0;
         $profit_factor = $winning_pnl > 0 && $losing_pnl < 0 ? abs($winning_pnl / $losing_pnl) : 0;
-        
+
         return [
             'total_positions' => $total_positions,
             'winning_positions' => $winning_positions,
@@ -254,7 +266,7 @@ class Position_model extends CI_Model {
             'worst_trade' => $worst_trade
         ];
     }
-    
+
     /**
      * Obtiene el PNL diario para gráficos
      * 
@@ -262,9 +274,10 @@ class Position_model extends CI_Model {
      * @param int $days Número de días
      * @return array
      */
-    public function get_daily_pnl($environment, $days = 30) {
+    public function get_daily_pnl($environment, $days = 30)
+    {
         $result = [];
-        
+
         // Generar query para obtener PNL diario
         $this->db->select('DATE(close_time) as date, SUM(pnl) as daily_pnl');
         $this->db->where('environment', $environment);
@@ -274,17 +287,17 @@ class Position_model extends CI_Model {
         $this->db->order_by('date', 'ASC');
         $query = $this->db->get('positions');
         $daily_pnl = $query->result_array();
-        
+
         // Crear array asociativo con fecha => PNL
         $pnl_by_date = [];
         foreach ($daily_pnl as $day) {
             $pnl_by_date[$day['date']] = $day['daily_pnl'];
         }
-        
+
         // Generar array de resultados para todos los días
         $current_date = new DateTime(date('Y-m-d', strtotime("-{$days} days")));
         $end_date = new DateTime(date('Y-m-d'));
-        
+
         while ($current_date <= $end_date) {
             $date_str = $current_date->format('Y-m-d');
             $result[] = [
@@ -293,7 +306,138 @@ class Position_model extends CI_Model {
             ];
             $current_date->modify('+1 day');
         }
-        
+
         return $result;
+    }
+    /**
+     * Obtiene una posición basada en el ID de la orden
+     * 
+     * @param int $order_id ID de la orden
+     * @return array|null
+     */
+    public function get_position_by_order($order_id)
+    {
+        $query = $this->db->get_where('positions', ['order_id' => $order_id]);
+        return $query->row_array();
+    }
+
+    /**
+     * Obtiene los datos de una posición específica para AJAX
+     * 
+     * @param int $position_id ID de la posición
+     * @return array
+     */
+    public function get_position_data($position_id)
+    {
+        $position = $this->get_position($position_id);
+
+        if ($position && $position['status'] === 'open') {
+            // Actualizar precio y PNL
+            $this->load->library('BingxApi');
+            $this->bingxapi->initialize($position['environment'], $position['market_type']);
+
+            // Obtener precio actual
+            $current_price = $this->bingxapi->get_ticker_price($position['ticker']);
+
+            // Calcular PNL
+            $pnl = calculate_pnl(
+                $position['direction'],
+                $position['entry_price'],
+                $current_price,
+                $position['quantity'],
+                $position['leverage']
+            );
+
+            // Actualizar la posición
+            $this->update_position_price(
+                $position['id'],
+                $current_price,
+                $pnl['amount'],
+                $pnl['percentage']
+            );
+
+            // Obtener posición actualizada
+            $position = $this->get_position($position_id);
+        }
+
+        return $position;
+    }
+
+    /**
+     * Cierra todas las posiciones abiertas en un entorno
+     * 
+     * @param string $environment Entorno (sandbox, production)
+     * @return array Resultado del cierre
+     */
+    public function close_all_positions($environment)
+    {
+        $positions = $this->get_open_positions($environment);
+        $results = [
+            'success' => 0,
+            'failed' => 0,
+            'details' => []
+        ];
+
+        $this->load->library('BingxApi');
+
+        foreach ($positions as $position) {
+            try {
+                // Inicializar API
+                $this->bingxapi->initialize($environment, $position['market_type']);
+
+                // Cerrar posición según el tipo de mercado
+                if ($position['market_type'] === 'futures') {
+                    $api_result = $this->bingxapi->close_futures_position($position['ticker']);
+                } else {
+                    // Para spot, creamos una orden opuesta
+                    $side = ($position['direction'] === 'long') ? 'SELL' : 'BUY';
+                    $params = [
+                        'symbol' => $position['ticker'],
+                        'side' => $side,
+                        'type' => 'MARKET',
+                        'quantity' => $position['quantity']
+                    ];
+                    $api_result = $this->bingxapi->create_spot_order($params);
+                }
+
+                // Obtener precio actual
+                $current_price = $this->bingxapi->get_ticker_price($position['ticker']);
+
+                // Calcular PNL final
+                $pnl = calculate_pnl(
+                    $position['direction'],
+                    $position['entry_price'],
+                    $current_price,
+                    $position['quantity'],
+                    $position['leverage']
+                );
+
+                // Cerrar posición en la base de datos
+                $this->close_position(
+                    $position['id'],
+                    'manual_batch',
+                    $current_price,
+                    $pnl['amount'],
+                    $pnl['percentage']
+                );
+
+                $results['success']++;
+                $results['details'][] = [
+                    'position_id' => $position['id'],
+                    'ticker' => $position['ticker'],
+                    'status' => 'success'
+                ];
+            } catch (Exception $e) {
+                $results['failed']++;
+                $results['details'][] = [
+                    'position_id' => $position['id'],
+                    'ticker' => $position['ticker'],
+                    'status' => 'failed',
+                    'error' => $e->getMessage()
+                ];
+            }
+        }
+
+        return $results;
     }
 }

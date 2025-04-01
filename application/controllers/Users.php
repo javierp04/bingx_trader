@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 
  * Controlador para la gestión de usuarios
  */
-class Users extends CI_Controller {
+class Users extends Admin_Controller {
     
     public function __construct() {
         parent::__construct();

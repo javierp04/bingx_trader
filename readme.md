@@ -124,7 +124,7 @@ project_root/
 │   ├── controllers/                  # Controladores
 │   │   ├── Auth.php                  # Autenticación
 │   │   ├── Dashboard.php             # Panel principal
-│   │   ├── DashboardController.php   # Funcionalidades del dashboard
+│   │   ├── Dashboard.php   # Funcionalidades del dashboard
 │   │   ├── Orders.php                # Gestión de órdenes
 │   │   ├── Positions.php             # Gestión de posiciones
 │   │   ├── WebhookController.php     # Recepción de webhooks

@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 
  * Controlador para gestionar órdenes
  */
-class Orders extends CI_Controller {
+class Orders extends Auth_Controller {
     
     public function __construct() {
         parent::__construct();

@@ -2,10 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * DashboardController
+ * Dashboard
  * Controla la visualización y administración del dashboard del sistema
  */
-class DashboardController extends Auth_Controller {
+class Dashboard extends Auth_Controller {
     
     public function __construct() {
         parent::__construct();
