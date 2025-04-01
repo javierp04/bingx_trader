@@ -1,14 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*
-|--------------------------------------------------------------------------
-| Auth Configuration
-|--------------------------------------------------------------------------
-| Este archivo contiene la configuración para el sistema de autenticación.
-|
-*/
-
 // Rutas
 $config['login_route'] = 'auth/login';
 $config['logout_route'] = 'auth/logout';
