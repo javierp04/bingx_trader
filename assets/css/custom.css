@@ -1,0 +1,263 @@
+/**
+ * Estilos personalizados para el sistema de trading automático
+ */
+
+/* Estilos generales */
+body {
+    background-color: #f8f9fa;
+    padding-bottom: 70px; /* Para el footer fijo */
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    z-index: 1000;
+}
+
+/* Dashboard y tarjetas */
+.card {
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    border-radius: 8px 8px 0 0 !important;
+    font-weight: 600;
+}
+
+/* Tableros de posiciones */
+.position-card {
+    border-left: 5px solid #17a2b8;
+}
+
+.position-card.long {
+    border-left-color: #28a745;
+}
+
+.position-card.short {
+    border-left-color: #dc3545;
+}
+
+.price-up {
+    color: #28a745;
+    animation: pulse-green 1s;
+}
+
+.price-down {
+    color: #dc3545;
+    animation: pulse-red 1s;
+}
+
+@keyframes pulse-green {
+    0% { background-color: rgba(40, 167, 69, 0.3); }
+    100% { background-color: transparent; }
+}
+
+@keyframes pulse-red {
+    0% { background-color: rgba(220, 53, 69, 0.3); }
+    100% { background-color: transparent; }
+}
+
+/* Tablas */
+.table th {
+    background-color: #343a40;
+    color: white;
+    border-color: #454d55;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Badges y estados */
+.badge-open {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.badge-closed {
+    background-color: #6c757d;
+    color: white;
+}
+
+.badge-sandbox {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.badge-production {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Formularios */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Botones personalizados */
+.btn-close-position {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-close-position:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* Gráficos */
+.chart-container {
+    position: relative;
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+/* Panel de estrategias */
+.strategy-item {
+    border-left: 4px solid #6c757d;
+    padding-left: 15px;
+    margin-bottom: 20px;
+}
+
+.strategy-item.active {
+    border-left-color: #28a745;
+}
+
+.strategy-item.futures {
+    border-left-color: #fd7e14;
+}
+
+.strategy-item.spot {
+    border-left-color: #17a2b8;
+}
+
+/* Indicadores PNL */
+.pnl-positive {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.pnl-negative {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Sección de configuración */
+.config-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.config-title {
+    border-bottom: 2px solid #f8f9fa;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: #343a40;
+}
+
+/* Loader y espera */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    .card-deck {
+        display: block;
+    }
+    
+    .card-deck .card {
+        margin-bottom: 15px;
+    }
+    
+    .chart-container {
+        height: 200px;
+    }
+    
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 0.9rem;
+    }
+}
+
+/* Tooltips personalizados */
+.custom-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-tooltip .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #343a40;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.custom-tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Animaciones de notificaciones */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.toast {
+    animation: slideInRight 0.3s;
+}

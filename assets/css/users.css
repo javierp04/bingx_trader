@@ -1,0 +1,211 @@
+/**
+ * Estilos personalizados para la gestión de usuarios
+ */
+
+/* Estilos para el avatar */
+.avatar-circle {
+    width: 100px;
+    height: 100px;
+    background-color: #007bff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: white;
+    font-size: 42px;
+    font-weight: bold;
+}
+
+/* Estilos para la línea de tiempo de actividad */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 20px;
+}
+
+.timeline:before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #e0e0e0;
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -30px;
+    top: 3px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.timeline-content {
+    padding-left: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Estilos para los requisitos de contraseña */
+.password-requirements {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.requirement {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.requirement i {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.requirement-valid {
+    color: #28a745;
+}
+
+.requirement-invalid {
+    color: #dc3545;
+}
+
+/* Estilos para las tarjetas de permisos */
+.permissions-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.permission-module {
+    margin-bottom: 15px;
+}
+
+.module-title {
+    font-weight: 600;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.permission-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.permission-item i {
+    margin-right: 10px;
+}
+
+/* Modo oscuro para tablas */
+.table-dark-header th {
+    background-color: #343a40;
+    color: white;
+    border-color: #454d55;
+}
+
+/* Estilos para los botones de acción */
+.action-buttons .btn {
+    margin-right: 5px;
+}
+
+.action-buttons .btn:last-child {
+    margin-right: 0;
+}
+
+/* Estilos para modales */
+.modal-confirm .modal-header {
+    border-bottom: none;
+    position: relative;
+}
+
+.modal-confirm .modal-header h4 {
+    text-align: center;
+    font-size: 26px;
+    margin: 30px 0 -10px;
+}
+
+.modal-confirm .modal-content {
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+}
+
+.modal-confirm .icon-box {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    border-radius: 50%;
+    z-index: 9;
+    text-align: center;
+    border: 3px solid #f15e5e;
+}
+
+.modal-confirm .icon-box i {
+    color: #f15e5e;
+    font-size: 46px;
+    display: inline-block;
+    margin-top: 13px;
+}
+
+/* Estilos para las tarjetas de estadísticas */
+.stats-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+}
+
+.stats-icon {
+    font-size: 28px;
+    margin-right: 15px;
+}
+
+.stats-number {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.stats-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .action-buttons .btn {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+    
+    .stats-card {
+        margin-bottom: 15px;
+    }
+    
+    .avatar-circle {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+    }
+}
